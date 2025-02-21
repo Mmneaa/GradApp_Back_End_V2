@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
       {
         userID: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         name: String,
-        postID: { type: mongoose.Schema.Types.ObjectId },
+        postID: { type: String },
       },
     ],
     friendsList: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
@@ -55,6 +55,9 @@ userSchema.pre("save", async function (next) {
 });
 // Method to compare passwords
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!enteredPassword) {
+    throw new Error("Password is required for comparison");
+  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

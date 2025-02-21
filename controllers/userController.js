@@ -121,23 +121,23 @@ exports.changeUserRole = async (req, res, next) => {
 };
 
 // Change password
-exports.changePassword = async (req, res, next) => {
-  try {
-    const { oldPassword, newPassword } = req.body;
+exports.changePassword = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
 
-    if (!(await req.user.matchPassword(oldPassword))) {
-      return res.status(400).json({ message: "Old password is incorrect" });
-    }
+  if (!oldPassword || !newPassword) {
+    return res
+      .status(400)
+      .json({ message: "Old and new passwords are required" });
+  }
 
-    req.user.password = newPassword;
-    await req.user.save();
+  const user = await User.findById(req.user.id);
 
-    // Generate a new token
-    const token = generateToken(req.user._id, req.user.accountType);
-
-    res.json({ message: "Password changed successfully", token });
-  } catch (error) {
-    next(error);
+  if (user && (await user.matchPassword(oldPassword))) {
+    user.password = newPassword;
+    await user.save();
+    res.status(200).json({ message: "Password updated successfully" });
+  } else {
+    res.status(400).json({ message: "Invalid old password" });
   }
 };
 
@@ -250,7 +250,7 @@ exports.addToStaticFavouriteList = async (req, res, next) => {
 
     // Check if ID already exists
     const exists = req.user.staticFavouriteList.some(
-      (item) => item.postID.toString() === postID
+      (item) => item.postID === postID // Compare as string
     );
     if (exists) {
       return res
@@ -261,7 +261,7 @@ exports.addToStaticFavouriteList = async (req, res, next) => {
     req.user.staticFavouriteList.push({
       userID: req.user._id,
       name,
-      postID,
+      postID, // Store as string
     });
     await req.user.save();
 
@@ -280,7 +280,7 @@ exports.removeFromStaticFavouriteList = async (req, res, next) => {
     const { postID } = req.body;
 
     req.user.staticFavouriteList = req.user.staticFavouriteList.filter(
-      (item) => item.postID.toString() !== postID
+      (item) => item.postID !== postID
     );
     await req.user.save();
 
