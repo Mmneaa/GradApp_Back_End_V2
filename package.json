@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "node server.js",
-    "start": "node server.js",
+    "start": "vercel start",
     "dev": "nodemon server.js"
   },
   "dependencies": {
