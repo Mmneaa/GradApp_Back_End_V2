@@ -39,6 +39,19 @@ socketIO.on("connection", (socket) => {
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
 connectDB();
-http.listen(PORT, () => {
+
+const server = http.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`Port ${PORT} is already in use. Trying another port...`);
+    const newPort = PORT + 1;
+    http.listen(newPort, () => {
+      console.log(`Server running on port ${newPort}`);
+    });
+  } else {
+    console.error(`Server error: ${err.message}`);
+  }
 });
