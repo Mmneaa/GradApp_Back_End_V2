@@ -121,23 +121,34 @@ exports.changeUserRole = async (req, res, next) => {
 };
 
 // Change password
-exports.changePassword = async (req, res) => {
-  const { oldPassword, newPassword } = req.body;
+exports.changePassword = async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
 
-  if (!oldPassword || !newPassword) {
-    return res
-      .status(400)
-      .json({ message: "Old and new passwords are required" });
-  }
+    if (!oldPassword || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: "Old password and new password are required" });
+    }
 
-  const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-  if (user && (await user.matchPassword(oldPassword))) {
+    if (!(await user.matchPassword(oldPassword))) {
+      return res.status(400).json({ message: "Old password is incorrect" });
+    }
+
     user.password = newPassword;
     await user.save();
-    res.status(200).json({ message: "Password updated successfully" });
-  } else {
-    res.status(400).json({ message: "Invalid old password" });
+
+    // Generate a new token
+    const token = generateToken(user._id, user.accountType);
+
+    res.json({ message: "Password changed successfully", token });
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -250,7 +261,7 @@ exports.addToStaticFavouriteList = async (req, res, next) => {
 
     // Check if ID already exists
     const exists = req.user.staticFavouriteList.some(
-      (item) => item.postID === postID // Compare as string
+      (item) => item.postID.toString() === postID
     );
     if (exists) {
       return res
@@ -261,7 +272,7 @@ exports.addToStaticFavouriteList = async (req, res, next) => {
     req.user.staticFavouriteList.push({
       userID: req.user._id,
       name,
-      postID, // Store as string
+      postID,
     });
     await req.user.save();
 
@@ -280,7 +291,7 @@ exports.removeFromStaticFavouriteList = async (req, res, next) => {
     const { postID } = req.body;
 
     req.user.staticFavouriteList = req.user.staticFavouriteList.filter(
-      (item) => item.postID !== postID
+      (item) => item.postID.toString() !== postID
     );
     await req.user.save();
 

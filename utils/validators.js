@@ -145,6 +145,21 @@ exports.validateMessageId = (req, res, next) => {
   next();
 };
 
+exports.validateRequestPasswordReset = (req, res, next) => {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+  });
+  validateRequest(req, next, schema);
+};
+
+exports.validateResetPassword = (req, res, next) => {
+  const schema = Joi.object({
+    resetToken: Joi.string().length(6).required(),
+    newPassword: Joi.string().required(),
+  });
+  validateRequest(req, next, schema);
+};
+
 function validateRequest(req, next, schema) {
   const options = {
     abortEarly: false, // include all errors

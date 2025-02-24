@@ -1,7 +1,10 @@
-// utils/sendEmail.js
 const nodemailer = require("nodemailer");
 
-const sendEmail = async (to, subject, text) => {
+const sendEmail = async ({ email, subject, message }) => {
+  if (!email) {
+    throw new Error("No recipient email defined");
+  }
+
   const transporter = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
     port: 2525,
@@ -11,12 +14,17 @@ const sendEmail = async (to, subject, text) => {
     },
   });
 
-  await transporter.sendMail({
-    from: '"Your App" <no-reply@yourapp.com>',
-    to,
-    subject,
-    text,
-  });
+  try {
+    await transporter.sendMail({
+      from: '"Gradapp" <no-reply@Gradapp.com>',
+      to: email,
+      subject: subject,
+      text: message,
+    });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Error sending email");
+  }
 };
 
 module.exports = sendEmail;
