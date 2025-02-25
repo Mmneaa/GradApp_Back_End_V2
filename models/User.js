@@ -42,6 +42,8 @@ const userSchema = new mongoose.Schema(
     roleChangedAt: {
       type: Date,
     },
+    resetPasswordToken: { type: String },
+    resetPasswordExpiry: { type: Date },
   },
   { timestamps: true }
 );
