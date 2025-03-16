@@ -28,6 +28,7 @@ exports.register = async (req, res, next) => {
     await user.save();
 
     // Send verification email
+    /*
     try {
       await sendEmail({
         email,
@@ -40,10 +41,9 @@ exports.register = async (req, res, next) => {
         .status(500)
         .json({ message: "Error sending verification email" });
     }
+    */
 
-    res
-      .status(201)
-      .json({ message: "User registered. Verification email sent." });
+    res.status(201).json({ message: "User registered successfully." });
   } catch (error) {
     next(error);
   }
@@ -137,3 +137,25 @@ exports.resetPassword = async (req, res, next) => {
     next(error);
   }
 };
+
+/*
+exports.refreshToken = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Refresh token is required" });
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const newAccessToken = generateAccessToken(user._id, user.accountType);
+    res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid or expired refresh token" });
+  }
+};
+*/
