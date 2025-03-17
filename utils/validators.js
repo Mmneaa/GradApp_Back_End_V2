@@ -63,6 +63,7 @@ exports.validateCreatePost = (req, res, next) => {
     title: Joi.string().required(),
     content: Joi.string().optional(),
     category: Joi.string().valid("Community", "Research", "Courses").required(),
+    subCategory: Joi.string().optional(),
     image: Joi.string().optional(),
   });
   validateRequest(req, next, schema);

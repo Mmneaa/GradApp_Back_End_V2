@@ -24,16 +24,23 @@ router.post("/", protect, validateCreatePost, createPost);
 router.get("/my-posts", protect, getMyPosts);
 
 // Get a single post by ID
-router.get("/:id", getPostById);
+router.get("/:id", validatePostId, getPostById);
 
 // Edit a post
-router.put("/:id", protect, authorize("admin", "moderator", "user"), editPost);
+router.put(
+  "/:id",
+  protect,
+  authorize("admin", "moderator", "user"),
+  validatePostId,
+  editPost
+);
 
 // Delete a post
 router.delete(
   "/:id",
   protect,
   authorize("admin", "moderator", "user"),
+  validatePostId,
   deletePost
 );
 
