@@ -78,7 +78,29 @@
           "request": {
             "method": "GET",
             "url": "{{baseUrl}}/api/posts?page=1&limit=10&category=Community"
-          }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/posts?page=1&limit=10&category=Community",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "posts"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "10" },
+                    { "key": "category", "value": "Community" }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"posts\": [\n    {\n      \"_id\": \"postId\",\n      \"title\": \"Post Title\",\n      \"content\": \"Post content\",\n      \"category\": \"Community\",\n      \"subCategory\": \"General\",\n      \"image\": \"https://example.com/image.jpg\",\n      \"user\": {\n        \"_id\": \"userId\",\n        \"username\": \"testuser\"\n      },\n      \"likes\": [\n        {\n          \"_id\": \"userId\",\n          \"username\": \"testuser\"\n        }\n      ],\n      \"favouritesCount\": 1,\n      \"createdAt\": \"2024-03-20T10:00:00Z\",\n      \"updatedAt\": \"2024-03-20T10:00:00Z\"\n    }\n  ],\n  \"totalPages\": 1,\n  \"currentPage\": 1,\n  \"totalPosts\": 1\n}"
+            }
+          ]
         },
         {
           "name": "Create Post",
@@ -90,7 +112,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"title\": \"Test Post\",\n\t\"content\": \"Test content\",\n\t\"category\": \"Community\",\n\t\"subCategory\": \"General\",\n\t\"image\": \"https://example.com/image.jpg\"\n}",
+              "raw": "{\n\t\"title\": \"Test Post\",\n\t\"content\": \"Test content\",\n\t\"category\": \"Community\",\n\t\"subCategory\": \"General\",\n\t\"image\": \"https://example.com/image.jpg\",\n\t\"url\": \"https://example.com/video.mp4\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -116,7 +138,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n\t\"title\": \"Updated Title\",\n\t\"content\": \"Updated content\"\n}",
+              "raw": "{\n\t\"title\": \"Updated Title\",\n\t\"content\": \"Updated content\",\n\t\"url\": \"https://example.com/video.mp4\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

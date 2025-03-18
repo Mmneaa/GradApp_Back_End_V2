@@ -65,6 +65,7 @@ exports.validateCreatePost = (req, res, next) => {
     category: Joi.string().valid("Community", "Research", "Courses").required(),
     subCategory: Joi.string().optional(),
     image: Joi.string().optional(),
+    url: Joi.string().uri().optional(),
   });
   validateRequest(req, next, schema);
 };
@@ -85,6 +86,7 @@ exports.validateEditPost = (req, res, next) => {
     content: Joi.string().optional(),
     category: Joi.string().valid("Community", "Research", "Courses").optional(),
     image: Joi.string().optional(),
+    url: Joi.string().uri().optional(),
   });
   validateRequest(req, next, schema);
 };

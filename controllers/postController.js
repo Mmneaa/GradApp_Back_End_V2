@@ -6,7 +6,7 @@ const User = require("../models/User");
 // Create a new post
 exports.createPost = async (req, res, next) => {
   try {
-    const { title, content, category, image } = req.body;
+    const { title, content, category, image, url } = req.body;
     const { accountType } = req.user;
 
     // Enforce category restrictions based on user role
@@ -27,6 +27,7 @@ exports.createPost = async (req, res, next) => {
       content,
       category,
       image,
+      url,
     });
 
     res.status(201).json(post);
@@ -39,7 +40,7 @@ exports.createPost = async (req, res, next) => {
 exports.editPost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { title, content, category, image } = req.body;
+    const { title, content, category, image, url } = req.body;
     const { accountType } = req.user;
 
     const post = await Post.findById(id);
@@ -74,6 +75,7 @@ exports.editPost = async (req, res, next) => {
     post.content = content || post.content;
     post.category = category || post.category;
     post.image = image || post.image;
+    post.url = url || post.url;
 
     await post.save();
     res.json(post);
@@ -146,6 +148,8 @@ exports.getPosts = async (req, res, next) => {
           id: post._id,
           title: post.title,
           image: post.image,
+          url: post.url,
+          favouritesCount: post.likes.length,
         });
         return acc;
       }, {});
@@ -158,7 +162,10 @@ exports.getPosts = async (req, res, next) => {
       };
     } else {
       response = {
-        posts,
+        posts: posts.map((post) => ({
+          ...post.toObject(),
+          favouritesCount: post.likes.length,
+        })),
         totalPages: Math.ceil(total / limit),
         currentPage: page,
         totalPosts: total,
