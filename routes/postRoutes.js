@@ -9,6 +9,8 @@ const {
   removeFromFavourites,
   getPostById,
   getMyPosts,
+  getResearchPostsBySubCategory,
+  getCoursesPostsBySubCategory,
 } = require("../controllers/postController");
 const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/roleMiddleware");
@@ -49,5 +51,11 @@ router.post("/favourites/add", protect, addToFavourites);
 
 // Remove from favourites
 router.post("/favourites/remove", protect, removeFromFavourites);
+
+// Get posts by subCategory for Research
+router.get("/research/:subCategory", getResearchPostsBySubCategory);
+
+// Get posts by subCategory for Courses
+router.get("/courses/:subCategory", getCoursesPostsBySubCategory);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "GradApp API Collection",
-    "description": "API collection for GradApp Backend",
+    "description": "Complete API collection for GradApp Backend with 44 endpoints",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -16,27 +16,19 @@
             "body": {
               "mode": "raw",
               "raw": "{\n\t\"username\": \"testuser\",\n\t\"email\": \"test@example.com\",\n\t\"password\": \"password123\",\n\t\"phoneNumber\": \"+1234567890\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "options": { "raw": { "language": "json" } }
             }
           }
         },
         {
           "name": "Login",
           "request": {
-            "method": "POST",
+            "method": "POST", 
             "url": "{{baseUrl}}/api/auth/login",
             "body": {
               "mode": "raw",
               "raw": "{\n\t\"email\": \"test@example.com\",\n\t\"password\": \"password123\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "options": { "raw": { "language": "json" } }
             }
           }
         },
@@ -46,13 +38,9 @@
             "method": "POST",
             "url": "{{baseUrl}}/api/auth/forgot-password",
             "body": {
-              "mode": "raw",
+              "mode": "raw", 
               "raw": "{\n\t\"email\": \"test@example.com\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "options": { "raw": { "language": "json" } }
             }
           }
         },
@@ -64,11 +52,19 @@
             "body": {
               "mode": "raw",
               "raw": "{\n\t\"resetToken\": \"123456\",\n\t\"newPassword\": \"newpassword123\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/auth/verify-email",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"verificationCode\": \"123456\"\n}",
+              "options": { "raw": { "language": "json" } }
             }
           }
         }
@@ -769,7 +765,7 @@
         {
           "name": "Error Response",
           "response": {
-            "status": "400 Bad Request",
+            "status": "400 Bad Request", 
             "body": "{\n\t\"message\": \"Error description\"\n}"
           }
         },
@@ -797,7 +793,7 @@
       "type": "string"
     },
     {
-      "key": "authToken",
+      "key": "authToken", 
       "value": "your-auth-token-here",
       "type": "string"
     }

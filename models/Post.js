@@ -11,6 +11,7 @@ const postSchema = new mongoose.Schema(
       enum: ["Community", "Research", "Courses"],
       required: true,
     },
+    subCategory: String, // Add subCategory attribute
     image: String,
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },

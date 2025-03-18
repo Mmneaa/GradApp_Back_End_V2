@@ -1,6 +1,8 @@
 # Node modules
 node_modules/
 
+
+
 # Environment variables
 .env
 
@@ -12,3 +14,5 @@ npm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+postman/GradApp_API_Collection.json

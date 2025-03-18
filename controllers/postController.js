@@ -223,3 +223,31 @@ exports.getMyPosts = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get posts by subCategory for Research
+exports.getResearchPostsBySubCategory = async (req, res, next) => {
+  try {
+    const { subCategory } = req.params;
+    const posts = await Post.find({ category: "Research", subCategory })
+      .populate("user", "username")
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get posts by subCategory for Courses
+exports.getCoursesPostsBySubCategory = async (req, res, next) => {
+  try {
+    const { subCategory } = req.params;
+    const posts = await Post.find({ category: "Courses", subCategory })
+      .populate("user", "username")
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (error) {
+    next(error);
+  }
+};

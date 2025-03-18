@@ -5,7 +5,7 @@ const {
   login,
   requestPasswordReset,
   resetPassword,
-  refreshToken,
+  // refreshToken,
 } = require("../controllers/authController");
 const {
   validateRegister,

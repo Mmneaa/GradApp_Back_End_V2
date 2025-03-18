@@ -1,8 +1,8 @@
 // controllers/authController.js
-const User = require("../models/User");
-const generateToken = require("../utils/generateToken");
-const sendEmail = require("../utils/sendEmail");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+const { generateToken } = require("../utils/generateToken"); // Correct import
 
 exports.register = async (req, res, next) => {
   try {
@@ -11,39 +11,28 @@ exports.register = async (req, res, next) => {
     if (userExists)
       return res.status(400).json({ message: "Email already in use." });
 
-    const verificationCode = Math.floor(
-      100000 + Math.random() * 900000
-    ).toString(); // Generate verification code
-
+    // Create user with email verification disabled
     const user = await User.create({
       username,
       email,
       password,
       phoneNumber,
-      emailVerificationCode: verificationCode,
-      emailVerified: false,
+      emailVerified: true, // Set to true by default
     });
 
-    // Save verification code to user
-    await user.save();
+    // Generate JWT token
+    const token = generateToken(user._id, user.accountType);
 
-    // Send verification email
-    /*
-    try {
-      await sendEmail({
-        email,
-        subject: "Email Verification",
-        message: `Your verification code is: ${verificationCode}`,
-      });
-    } catch (emailError) {
-      console.error("Error sending verification email:", emailError);
-      return res
-        .status(500)
-        .json({ message: "Error sending verification email" });
-    }
-    */
-
-    res.status(201).json({ message: "User registered successfully." });
+    res.status(201).json({
+      message: "User registered successfully.",
+      token,
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        accountType: user.accountType,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -59,16 +48,19 @@ exports.login = async (req, res, next) => {
     if (user.banned)
       return res.status(403).json({ message: "Account is banned." });
 
-    res.json({
-      token: generateToken(user._id, user.accountType),
-      user: {
-        id: user._id,
-        username: user.username,
-        accountType: user.accountType,
-      },
+    // Generate JWT token
+    const token = generateToken(user._id, user.accountType);
+
+    res.status(200).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      token: token,
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
