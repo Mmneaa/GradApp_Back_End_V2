@@ -121,14 +121,23 @@ exports.getPosts = async (req, res, next) => {
       query.category = category;
     }
 
+    // Count total documents for pagination
+    const total = await Post.countDocuments(query);
+
     // Fetch posts with pagination
     const posts = await Post.find(query)
       .populate("user", "username")
+      .populate("likes", "username")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
 
-    res.json(posts);
+    res.json({
+      posts,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      totalPosts: total,
+    });
   } catch (error) {
     next(error);
   }
@@ -228,11 +237,28 @@ exports.getMyPosts = async (req, res, next) => {
 exports.getResearchPostsBySubCategory = async (req, res, next) => {
   try {
     const { subCategory } = req.params;
-    const posts = await Post.find({ category: "Research", subCategory })
-      .populate("user", "username")
-      .sort({ createdAt: -1 });
+    const { page = 1, limit = 10 } = req.query;
 
-    res.json(posts);
+    const query = {
+      category: "Research",
+      subCategory,
+    };
+
+    const total = await Post.countDocuments(query);
+
+    const posts = await Post.find(query)
+      .populate("user", "username")
+      .populate("likes", "username")
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
+
+    res.json({
+      posts,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      totalPosts: total,
+    });
   } catch (error) {
     next(error);
   }
@@ -242,11 +268,28 @@ exports.getResearchPostsBySubCategory = async (req, res, next) => {
 exports.getCoursesPostsBySubCategory = async (req, res, next) => {
   try {
     const { subCategory } = req.params;
-    const posts = await Post.find({ category: "Courses", subCategory })
-      .populate("user", "username")
-      .sort({ createdAt: -1 });
+    const { page = 1, limit = 10 } = req.query;
 
-    res.json(posts);
+    const query = {
+      category: "Courses",
+      subCategory,
+    };
+
+    const total = await Post.countDocuments(query);
+
+    const posts = await Post.find(query)
+      .populate("user", "username")
+      .populate("likes", "username")
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
+
+    res.json({
+      posts,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+      totalPosts: total,
+    });
   } catch (error) {
     next(error);
   }
