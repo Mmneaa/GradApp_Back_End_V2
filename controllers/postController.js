@@ -113,7 +113,9 @@ exports.deletePost = async (req, res, next) => {
 // Get all posts with optional filtering and pagination
 exports.getPosts = async (req, res, next) => {
   try {
-    const { category, page = 1, limit = 10 } = req.query;
+    const { category } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
 
     // Build query object
     let query = {};
@@ -130,14 +132,40 @@ exports.getPosts = async (req, res, next) => {
       .populate("likes", "username")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
-      .limit(parseInt(limit));
+      .limit(limit);
 
-    res.json({
-      posts,
-      totalPages: Math.ceil(total / limit),
-      currentPage: page,
-      totalPosts: total,
-    });
+    let response;
+    if (category === "Courses" || category === "Research") {
+      // Group posts by subCategory
+      const groupedPosts = posts.reduce((acc, post) => {
+        const subCategory = post.subCategory || "Uncategorized";
+        if (!acc[subCategory]) {
+          acc[subCategory] = [];
+        }
+        acc[subCategory].push({
+          id: post._id,
+          title: post.title,
+          image: post.image,
+        });
+        return acc;
+      }, {});
+
+      response = {
+        groupedPosts,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+        totalPosts: total,
+      };
+    } else {
+      response = {
+        posts,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+        totalPosts: total,
+      };
+    }
+
+    res.json(response);
   } catch (error) {
     next(error);
   }
@@ -291,6 +319,58 @@ exports.getCoursesPostsBySubCategory = async (req, res, next) => {
       totalPosts: total,
     });
   } catch (error) {
+    next(error);
+  }
+};
+
+// Get all Research posts grouped by subCategory
+exports.getResearchPostsBySubCategory = async (req, res, next) => {
+  try {
+    const posts = await Post.find({ category: "Research" })
+      .populate("user", "username")
+      .populate("likes", "username")
+      .sort({ createdAt: -1 });
+
+    // Group posts by subCategory
+    const groupedPosts = posts.reduce((acc, post) => {
+      const subCategory = post.subCategory || "Uncategorized";
+      if (!acc[subCategory]) {
+        acc[subCategory] = [];
+      }
+      acc[subCategory].push(post);
+      return acc;
+    }, {});
+
+    console.log(`Found ${posts.length} research posts in total`);
+    res.json(groupedPosts);
+  } catch (error) {
+    console.error("Error in getResearchPosts:", error);
+    next(error);
+  }
+};
+
+// Get all Courses posts grouped by subCategory
+exports.getCoursesPostsBySubCategory = async (req, res, next) => {
+  try {
+    const posts = await Post.find({ category: "Courses" })
+      .populate("user", "username")
+      .populate("likes", "username")
+      .sort({ createdAt: -1 });
+
+    // Group posts by subCategory
+    const groupedPosts = posts.reduce((acc, post) => {
+      const subCategory = post.subCategory || "Uncategorized";
+      if (!acc[subCategory]) {
+        acc[subCategory] = [];
+      }
+      acc[subCategory].push(post);
+      return acc;
+    }, {});
+
+    console.log(`Found ${posts.length} courses posts in total`);
+    res.json(groupedPosts);
+  } catch (error) {
+    console.error("Error in getCoursesPosts:", error);
     next(error);
   }
 };

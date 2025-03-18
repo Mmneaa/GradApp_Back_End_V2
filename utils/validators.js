@@ -45,10 +45,10 @@ exports.validatePasswordChange = (req, res, next) => {
 };
 
 exports.validatePostId = (req, res, next) => {
-  const schema = Joi.object({
-    postId: Joi.string().required(),
-  });
-  validateRequest(req, next, schema);
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: "Invalid post ID" });
+  }
+  next();
 };
 
 exports.validateFriendId = (req, res, next) => {
@@ -87,13 +87,6 @@ exports.validateEditPost = (req, res, next) => {
     image: Joi.string().optional(),
   });
   validateRequest(req, next, schema);
-};
-
-exports.validatePostId = (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    return res.status(400).json({ message: "Invalid post ID" });
-  }
-  next();
 };
 
 exports.validateInitiateChat = (req, res, next) => {

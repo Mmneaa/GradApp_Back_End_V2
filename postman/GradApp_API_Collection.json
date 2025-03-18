@@ -136,20 +136,6 @@
           }
         },
         {
-          "name": "Get Research Posts by SubCategory",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/api/posts/research/:subCategory"
-          }
-        },
-        {
-          "name": "Get Courses Posts by SubCategory",
-          "request": {
-            "method": "GET",
-            "url": "{{baseUrl}}/api/posts/courses/:subCategory"
-          }
-        },
-        {
           "name": "Get My Posts",
           "request": {
             "method": "GET",
