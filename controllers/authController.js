@@ -2,7 +2,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const { generateToken } = require("../utils/generateToken"); // Correct import
+const generateToken = require("../utils/generateToken"); // Correct import
 
 exports.register = async (req, res, next) => {
   try {

@@ -24,7 +24,7 @@ exports.createPost = async (req, res, next) => {
     const post = await Post.create({
       user: req.user._id,
       title,
-      content,
+      content: content || "", // Allow content to be empty
       category,
       image,
       url,

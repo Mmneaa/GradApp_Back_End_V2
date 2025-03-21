@@ -2,6 +2,8 @@ const User = require("../models/User");
 const sendEmail = require("../utils/sendEmail");
 const Post = require("../models/Post");
 const Group = require("../models/Group");
+const jwt = require("jsonwebtoken");
+const generateToken = require("../utils/generateToken");
 
 // Get user profile
 exports.getUserProfile = async (req, res, next) => {
@@ -422,5 +424,3 @@ exports.getGroupsList = async (req, res, next) => {
     next(error);
   }
 };
-
-const jwt = require("jsonwebtoken");
