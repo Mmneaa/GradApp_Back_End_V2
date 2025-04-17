@@ -1,3 +1,5 @@
+// Chat routes: Handles chat-related operations such as initiating chats, sending messages, and retrieving messages.
+
 const express = require("express");
 const router = express.Router();
 const { protect } = require("../middleware/authMiddleware");

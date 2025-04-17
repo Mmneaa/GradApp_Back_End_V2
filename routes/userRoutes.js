@@ -1,3 +1,4 @@
+// User routes: Handles user-related operations such as profile management, role changes, and favorites.
 const express = require("express");
 const router = express.Router();
 const {

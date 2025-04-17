@@ -1,6 +1,7 @@
 // models/Chat.js
 const mongoose = require("mongoose");
 
+// Chat model: Defines the schema for chats, including participants, messages, and type.
 const chatSchema = new mongoose.Schema(
   {
     chatType: {

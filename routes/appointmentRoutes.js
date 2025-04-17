@@ -1,3 +1,5 @@
+// Appointment routes: Handles appointment-related operations such as scheduling and reservations.
+
 // routes/appointmentRoutes.js
 const express = require("express");
 const router = express.Router();

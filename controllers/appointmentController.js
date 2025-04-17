@@ -1,7 +1,7 @@
 // controllers/appointmentController.js
 const Appointment = require("../models/Appointment");
 
-// Set schedule (Doctor only)
+// Set schedule: Allows a doctor to set their schedule.
 exports.setSchedule = async (req, res, next) => {
   try {
     const { schedule } = req.body;
@@ -17,7 +17,7 @@ exports.setSchedule = async (req, res, next) => {
   }
 };
 
-// Get schedule (Doctor only)
+// Get schedule: Allows a doctor to retrieve their schedule.
 exports.getSchedule = async (req, res, next) => {
   try {
     if (req.user.accountType !== "doctor") {
@@ -31,7 +31,7 @@ exports.getSchedule = async (req, res, next) => {
   }
 };
 
-// Make a reservation (User only)
+// Make a reservation: Allows a user to book an appointment with a doctor.
 exports.makeReservation = async (req, res, next) => {
   try {
     const { doctorId, dateTime } = req.body;
@@ -54,7 +54,7 @@ exports.makeReservation = async (req, res, next) => {
   }
 };
 
-// Get reservations (User only)
+// Get reservations: Retrieves all reservations made by the authenticated user.
 exports.getReservations = async (req, res, next) => {
   try {
     const reservations = await Appointment.find({ user: req.user._id })
@@ -67,7 +67,7 @@ exports.getReservations = async (req, res, next) => {
   }
 };
 
-// Get reservations (Doctor only)
+// Get doctor reservations: Retrieves all reservations for the authenticated doctor.
 exports.getDoctorReservations = async (req, res, next) => {
   try {
     if (req.user.accountType !== "doctor") {

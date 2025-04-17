@@ -1,7 +1,7 @@
 const Chat = require("../models/Chat");
 const Message = require("../models/Message");
 
-// Initiate a chat between users
+// Initiate a chat: Starts a new chat between users or creates a group chat.
 exports.initiateChat = async (req, res, next) => {
   try {
     const { participantIds, chatType, groupName } = req.body;
@@ -20,7 +20,7 @@ exports.initiateChat = async (req, res, next) => {
   }
 };
 
-// Get chats for the authenticated user
+// Get chats: Retrieves all chats for the authenticated user.
 exports.getChats = async (req, res, next) => {
   try {
     const chats = await Chat.find({ participants: req.user._id })
@@ -33,7 +33,7 @@ exports.getChats = async (req, res, next) => {
   }
 };
 
-// Send a message in a chat
+// Send a message: Sends a message in a specific chat.
 exports.sendMessage = async (req, res, next) => {
   try {
     const { chatId, content, messageType, fileUrl } = req.body;
@@ -68,7 +68,7 @@ exports.sendMessage = async (req, res, next) => {
   }
 };
 
-// Get messages for a chat
+// Get messages: Retrieves the last 100 messages for a specific chat.
 exports.getMessages = async (req, res, next) => {
   try {
     const { chatId } = req.params;
@@ -94,7 +94,7 @@ exports.getMessages = async (req, res, next) => {
   }
 };
 
-// Delete a message (Admin/Moderator only)
+// Delete a message: Allows an admin or moderator to delete a specific message.
 exports.deleteMessage = async (req, res, next) => {
   try {
     const { messageId } = req.params;

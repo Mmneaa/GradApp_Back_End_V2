@@ -1,3 +1,5 @@
+// Post model: Defines the schema for posts, including user association, categories, and likes.
+
 // models/Post.js
 const mongoose = require("mongoose");
 

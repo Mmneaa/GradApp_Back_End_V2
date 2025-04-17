@@ -1,3 +1,5 @@
+// User model: Defines the schema for user data, including authentication, roles, and relationships.
+
 // models/User.js
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");

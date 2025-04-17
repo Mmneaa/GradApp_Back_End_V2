@@ -1,3 +1,4 @@
+// Group model: Defines the schema for user groups, including members and creator.
 const mongoose = require("mongoose");
 
 const groupSchema = new mongoose.Schema(

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken"); // Correct import
 
+// Register: Creates a new user account and returns a JWT token.
 exports.register = async (req, res, next) => {
   try {
     const { username, email, password, phoneNumber } = req.body;
@@ -38,6 +39,7 @@ exports.register = async (req, res, next) => {
   }
 };
 
+// Login: Authenticates a user and returns a JWT token.
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -64,6 +66,7 @@ exports.login = async (req, res, next) => {
   }
 };
 
+// Request password reset: Sends a password reset code to the user's email.
 exports.requestPasswordReset = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -104,6 +107,7 @@ exports.requestPasswordReset = async (req, res, next) => {
   }
 };
 
+// Reset password: Resets the user's password using a valid reset code.
 exports.resetPassword = async (req, res, next) => {
   try {
     const { resetToken, newPassword } = req.body;

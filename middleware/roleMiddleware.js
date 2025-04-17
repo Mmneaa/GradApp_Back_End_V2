@@ -1,3 +1,4 @@
+// Role middleware: Authorizes access based on user roles.
 // middleware/roleMiddleware.js
 exports.authorize = (...roles) => {
   return (req, res, next) => {

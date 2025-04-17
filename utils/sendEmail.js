@@ -1,3 +1,5 @@
+// Email utility: Sends emails using nodemailer with Mailtrap for testing.
+
 const nodemailer = require("nodemailer");
 
 const sendEmail = async ({ email, subject, message }) => {

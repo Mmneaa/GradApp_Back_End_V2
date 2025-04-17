@@ -1,3 +1,4 @@
+// Connect to MongoDB: Establishes a connection to the MongoDB database using the URI from environment variables.
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 

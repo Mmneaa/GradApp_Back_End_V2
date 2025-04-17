@@ -1,3 +1,4 @@
+// Authentication routes: Manages user authentication, registration, and password reset operations.
 const express = require("express");
 const router = express.Router();
 const {

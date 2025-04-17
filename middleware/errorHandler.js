@@ -1,4 +1,5 @@
 // middleware/errorHandler.js
+// Error handler middleware: Handles errors and sends appropriate responses.
 module.exports = (err, req, res, next) => {
   console.error(err.stack);
 

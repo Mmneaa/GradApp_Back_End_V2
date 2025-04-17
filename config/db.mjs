@@ -1,3 +1,4 @@
+// Connect to MongoDB: Establishes a connection to the MongoDB database using the URI from environment variables.
 import mongoose from "mongoose";
 
 const connectDB = async () => {

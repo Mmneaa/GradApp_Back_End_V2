@@ -1,4 +1,5 @@
 // middleware/validationMiddleware.js
+// Validation middleware: Validates request bodies against a provided schema.
 module.exports = function (schema) {
   return (req, res, next) => {
     const { error } = schema.validate(req.body, {

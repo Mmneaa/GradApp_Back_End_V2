@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+// Protect middleware: Verifies the JWT token, retrieves the user, and ensures the user is not banned.
 exports.protect = async (req, res, next) => {
   let token;
   if (

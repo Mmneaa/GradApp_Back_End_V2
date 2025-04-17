@@ -5,7 +5,7 @@ const Group = require("../models/Group");
 const jwt = require("jsonwebtoken");
 const generateToken = require("../utils/generateToken");
 
-// Get user profile
+// Get user profile: Fetches the authenticated user's profile.
 exports.getUserProfile = async (req, res, next) => {
   try {
     // Access the authenticated user's ID
@@ -19,7 +19,7 @@ exports.getUserProfile = async (req, res, next) => {
   }
 };
 
-// Update user profile
+// Update user profile: Updates the user's profile, including email, username, phone number, and preferred language. Sends a verification code if the email is changed.
 exports.updateUserProfile = async (req, res, next) => {
   try {
     const { username, email, phoneNumber, preferredLanguage } = req.body;
@@ -64,6 +64,7 @@ exports.updateUserProfile = async (req, res, next) => {
   }
 };
 
+// Verify email: Verifies the user's email using a verification code.
 exports.verifyEmail = async (req, res, next) => {
   try {
     const { verificationCode } = req.body;
@@ -88,6 +89,7 @@ exports.verifyEmail = async (req, res, next) => {
   }
 };
 
+// Change user role: Changes a user's role (admin, moderator, doctor, etc.) with restrictions.
 exports.changeUserRole = async (req, res, next) => {
   try {
     const { userId, newRole } = req.body;
@@ -121,7 +123,7 @@ exports.changeUserRole = async (req, res, next) => {
   }
 };
 
-// Change password
+// Change password: Allows a user to change their password after verifying the old password.
 exports.changePassword = async (req, res, next) => {
   try {
     const { oldPassword, newPassword } = req.body;
@@ -153,7 +155,7 @@ exports.changePassword = async (req, res, next) => {
   }
 };
 
-// Get all users (Admin only)
+// Get all users: Fetches all users (admin-only access).
 exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find().select("-password");
@@ -163,7 +165,7 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-// Ban a user (Admin only)
+// Ban user: Bans a user (admin-only access).
 exports.banUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
@@ -180,7 +182,7 @@ exports.banUser = async (req, res, next) => {
   }
 };
 
-// Unban a user (Admin only)
+// Unban user: Unbans a user (admin-only access).
 exports.unbanUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
@@ -196,7 +198,7 @@ exports.unbanUser = async (req, res, next) => {
   }
 };
 
-// Add a post to user's favourite list
+// Add to favourite list: Adds a post to the user's favorite list.
 exports.addToFavouriteList = async (req, res, next) => {
   try {
     const { postId } = req.body;
@@ -224,7 +226,7 @@ exports.addToFavouriteList = async (req, res, next) => {
   }
 };
 
-// Remove a post from user's favourite list
+// Remove from favourite list: Removes a post from the user's favorite list.
 exports.removeFromFavouriteList = async (req, res, next) => {
   try {
     const { postId } = req.body;
@@ -243,7 +245,7 @@ exports.removeFromFavouriteList = async (req, res, next) => {
   }
 };
 
-// Get user's favourite list
+// Get favourite list: Retrieves the user's favorite posts.
 exports.getFavouriteList = async (req, res, next) => {
   try {
     const favouritePosts = await Post.find({
@@ -255,7 +257,7 @@ exports.getFavouriteList = async (req, res, next) => {
   }
 };
 
-// Add to static favourite list
+// Add to static favourite list: Adds a post to the user's static favorite list.
 exports.addToStaticFavouriteList = async (req, res, next) => {
   try {
     const { name, postID } = req.body;
@@ -286,7 +288,7 @@ exports.addToStaticFavouriteList = async (req, res, next) => {
   }
 };
 
-// Remove from static favourite list
+// Remove from static favourite list: Removes a post from the user's static favorite list.
 exports.removeFromStaticFavouriteList = async (req, res, next) => {
   try {
     const { postID } = req.body;
@@ -305,7 +307,7 @@ exports.removeFromStaticFavouriteList = async (req, res, next) => {
   }
 };
 
-// Get static favourite list
+// Get static favourite list: Retrieves the user's static favorite posts.
 exports.getStaticFavouriteList = async (req, res, next) => {
   try {
     res.json(req.user.staticFavouriteList);
@@ -314,7 +316,7 @@ exports.getStaticFavouriteList = async (req, res, next) => {
   }
 };
 
-// Add a user to friends list
+// Add friend: Adds a user to the authenticated user's friends list.
 exports.addFriend = async (req, res, next) => {
   try {
     const { friendId } = req.body;
@@ -340,7 +342,7 @@ exports.addFriend = async (req, res, next) => {
   }
 };
 
-// Remove a user from friends list
+// Remove friend: Removes a user from the authenticated user's friends list.
 exports.removeFriend = async (req, res, next) => {
   try {
     const { friendId } = req.body;
@@ -359,7 +361,7 @@ exports.removeFriend = async (req, res, next) => {
   }
 };
 
-// Get friends list
+// Get friends list: Retrieves the authenticated user's friends list.
 exports.getFriendsList = async (req, res, next) => {
   try {
     const friends = await User.find({
@@ -371,7 +373,7 @@ exports.getFriendsList = async (req, res, next) => {
   }
 };
 
-// Add a group to groups list
+// Add group: Adds a group to the authenticated user's groups list.
 exports.addGroup = async (req, res, next) => {
   try {
     const { groupId } = req.body;
@@ -394,7 +396,7 @@ exports.addGroup = async (req, res, next) => {
   }
 };
 
-// Remove a group from groups list
+// Remove group: Removes a group from the authenticated user's groups list.
 exports.removeGroup = async (req, res, next) => {
   try {
     const { groupId } = req.body;
@@ -413,7 +415,7 @@ exports.removeGroup = async (req, res, next) => {
   }
 };
 
-// Get groups list
+// Get groups list: Retrieves the authenticated user's groups list.
 exports.getGroupsList = async (req, res, next) => {
   try {
     const groups = await Group.find({

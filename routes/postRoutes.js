@@ -1,3 +1,4 @@
+// Post routes: Manages post-related operations such as creation, editing, deletion, and favorites.
 const express = require("express");
 const router = express.Router();
 const {

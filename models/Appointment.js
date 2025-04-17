@@ -1,4 +1,5 @@
 // models/Appointment.js
+// Appointment model: Defines the schema for appointments, including user, doctor, and date/time.
 const mongoose = require("mongoose");
 
 const appointmentSchema = new mongoose.Schema(

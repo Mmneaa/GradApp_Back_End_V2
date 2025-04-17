@@ -1,3 +1,4 @@
+// Token generator: Generates JWT tokens for user authentication.
 const jwt = require("jsonwebtoken");
 
 const generateToken = (userId, accountType) => {

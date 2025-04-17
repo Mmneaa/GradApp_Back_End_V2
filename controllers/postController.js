@@ -3,7 +3,7 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 
-// Create a new post
+// Create a new post: Allows a user to create a post with specific category restrictions based on their role.
 exports.createPost = async (req, res, next) => {
   try {
     const { title, content, category, image, url } = req.body;
@@ -36,7 +36,7 @@ exports.createPost = async (req, res, next) => {
   }
 };
 
-// Edit an existing post
+// Edit an existing post: Allows a user to edit their post or, if an admin/moderator, any post.
 exports.editPost = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -84,7 +84,7 @@ exports.editPost = async (req, res, next) => {
   }
 };
 
-// Delete a post
+// Delete a post: Allows a user to delete their post or, if an admin/moderator, any post.
 exports.deletePost = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -112,7 +112,7 @@ exports.deletePost = async (req, res, next) => {
   }
 };
 
-// Get all posts with optional filtering and pagination
+// Get all posts: Retrieves all posts with optional filtering and pagination.
 exports.getPosts = async (req, res, next) => {
   try {
     const { category } = req.query;
@@ -178,7 +178,7 @@ exports.getPosts = async (req, res, next) => {
   }
 };
 
-// Add a post to favourites
+// Add a post to favourites: Adds a post to the authenticated user's favourites list.
 exports.addToFavourites = async (req, res, next) => {
   try {
     const { postId } = req.body;
@@ -210,7 +210,7 @@ exports.addToFavourites = async (req, res, next) => {
   }
 };
 
-// Remove a post from favourites
+// Remove a post from favourites: Removes a post from the authenticated user's favourites list.
 exports.removeFromFavourites = async (req, res, next) => {
   try {
     const { postId } = req.body;
@@ -240,7 +240,7 @@ exports.removeFromFavourites = async (req, res, next) => {
   }
 };
 
-// Get a single post by ID
+// Get a single post by ID: Retrieves a specific post by its ID.
 exports.getPostById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -255,7 +255,7 @@ exports.getPostById = async (req, res, next) => {
   }
 };
 
-// Get posts created by the authenticated user
+// Get posts created by the authenticated user: Retrieves all posts created by the authenticated user.
 exports.getMyPosts = async (req, res, next) => {
   try {
     const posts = await Post.find({ user: req.user._id })
@@ -268,7 +268,7 @@ exports.getMyPosts = async (req, res, next) => {
   }
 };
 
-// Get posts by subCategory for Research
+// Get posts by subCategory for Research: Retrieves research posts filtered by subCategory.
 exports.getResearchPostsBySubCategory = async (req, res, next) => {
   try {
     const { subCategory } = req.params;
@@ -299,7 +299,7 @@ exports.getResearchPostsBySubCategory = async (req, res, next) => {
   }
 };
 
-// Get posts by subCategory for Courses
+// Get posts by subCategory for Courses: Retrieves course posts filtered by subCategory.
 exports.getCoursesPostsBySubCategory = async (req, res, next) => {
   try {
     const { subCategory } = req.params;
@@ -330,7 +330,7 @@ exports.getCoursesPostsBySubCategory = async (req, res, next) => {
   }
 };
 
-// Get all Research posts grouped by subCategory
+// Get all Research posts grouped by subCategory: Groups all research posts by their subCategory.
 exports.getResearchPostsBySubCategory = async (req, res, next) => {
   try {
     const posts = await Post.find({ category: "Research" })
@@ -356,7 +356,7 @@ exports.getResearchPostsBySubCategory = async (req, res, next) => {
   }
 };
 
-// Get all Courses posts grouped by subCategory
+// Get all Courses posts grouped by subCategory: Groups all course posts by their subCategory.
 exports.getCoursesPostsBySubCategory = async (req, res, next) => {
   try {
     const posts = await Post.find({ category: "Courses" })
