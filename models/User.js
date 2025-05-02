@@ -31,9 +31,15 @@ const userSchema = new mongoose.Schema(
     reservationList: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
     ],
-    scheduleList: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Appointment" },
-    ],
+    scheduleList: {
+      type: [String], // Change from [ObjectId] to [String]
+      validate: {
+        validator: function (value) {
+          return value.every((date) => !isNaN(Date.parse(date))); // Validate ISO date strings
+        },
+        message: (props) => `${props.value} contains an invalid date format.`,
+      },
+    },
     preferredLanguage: { type: String, enum: ["EN", "AR"], default: "EN" },
     banned: { type: Boolean, default: false },
     bannedList: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

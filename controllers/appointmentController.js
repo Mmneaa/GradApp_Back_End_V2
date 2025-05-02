@@ -1,5 +1,6 @@
 // controllers/appointmentController.js
 const Appointment = require("../models/Appointment");
+const mongoose = require("mongoose");
 
 // Set schedule: Allows a doctor to set their schedule.
 exports.setSchedule = async (req, res, next) => {
@@ -9,10 +10,26 @@ exports.setSchedule = async (req, res, next) => {
       return res.status(403).json({ message: "Permission denied" });
     }
 
-    req.user.scheduleList = schedule;
+    // Validate schedule as an array of ISO date strings
+    if (!Array.isArray(schedule)) {
+      return res.status(400).json({ message: "Schedule must be an array." });
+    }
+
+    const isValidDate = (date) => !isNaN(Date.parse(date));
+    const validatedSchedule = schedule.map((item) => {
+      if (!isValidDate(item)) {
+        throw new Error(`Invalid date format: ${item}`);
+      }
+      return item;
+    });
+
+    req.user.scheduleList = validatedSchedule;
     await req.user.save();
     res.json({ message: "Schedule set successfully" });
   } catch (error) {
+    if (error.message.startsWith("Invalid date format")) {
+      return res.status(400).json({ message: error.message });
+    }
     next(error);
   }
 };

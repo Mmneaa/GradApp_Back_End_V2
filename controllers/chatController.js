@@ -5,13 +5,22 @@ const Message = require("../models/Message");
 exports.initiateChat = async (req, res, next) => {
   try {
     const { participantIds, chatType, groupName } = req.body;
-    const participants = [req.user._id, ...participantIds];
 
-    // Create a new chat
+    if (chatType === "group") {
+      // Handle group chats dynamically without saving them in the database
+      const participants = [req.user._id, ...participantIds];
+      return res.status(201).json({
+        chatType,
+        participants,
+        groupName,
+      });
+    }
+
+    // For non-group chats, create a new chat in the database
+    const participants = [req.user._id, ...participantIds];
     const chat = await Chat.create({
       chatType,
       participants,
-      groupName: chatType === "group" ? groupName : undefined,
     });
 
     res.status(201).json(chat);
