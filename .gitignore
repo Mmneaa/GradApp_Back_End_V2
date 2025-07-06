@@ -1,8 +1,6 @@
 # Node modules
 node_modules/
 
-.gitignore
-
 # Environment variables
 .env
 
@@ -15,6 +13,5 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Ignore postman folder and all its contents
 postman/
-
-postman/GradApp_API_Collection.json
