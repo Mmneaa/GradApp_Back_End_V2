@@ -15,4 +15,6 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+postman/
+
 postman/GradApp_API_Collection.json

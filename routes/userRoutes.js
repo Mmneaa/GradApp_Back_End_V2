@@ -47,13 +47,6 @@ router.put(
   validateChangeUserRole,
   changeUserRole
 );
-router.put(
-  "/change-role",
-  protect,
-  authorize("admin"),
-  validateChangeUserRole,
-  changeUserRole
-);
 router.get("/", protect, authorize("admin"), getAllUsers);
 router.put("/ban/:id", protect, authorize("admin"), banUser);
 router.put("/unban/:id", protect, authorize("admin"), unbanUser);
@@ -82,5 +75,16 @@ router.post("/friends/remove", protect, validateFriendId, removeFriend);
 router.get("/groups", protect, getGroupsList);
 router.post("/groups/add", protect, addGroup);
 router.post("/groups/remove", protect, removeGroup);
+
+router.get("/doctors", protect, async (req, res, next) => {
+  try {
+    const doctors = await require("../models/User")
+      .find({ accountType: "doctor" })
+      .select("username email");
+    res.json(doctors);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

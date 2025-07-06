@@ -166,6 +166,34 @@
               "Authorization": "Bearer {{authToken}}"
             }
           }
+        },
+        {
+          "name": "Get Research Posts By SubCategory",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/posts/research/subcategory/:subCategory"
+          }
+        },
+        {
+          "name": "Get Courses Posts By SubCategory",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/posts/courses/subcategory/:subCategory"
+          }
+        },
+        {
+          "name": "Get All Research Posts Grouped By SubCategory",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/posts/research/grouped"
+          }
+        },
+        {
+          "name": "Get All Courses Posts Grouped By SubCategory",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/posts/courses/grouped"
+          }
         }
       ]
     },
