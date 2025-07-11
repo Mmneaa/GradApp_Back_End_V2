@@ -426,3 +426,20 @@ exports.getGroupsList = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get doctors list: Retrieves all users with the doctor role.
+exports.getDoctorsList = async (req, res, next) => {
+  try {
+    const doctors = await User.find({ accountType: "doctor" }).select(
+      "username email _id image"
+    );
+    const response = doctors.map((doc) => ({
+      id: doc._id,
+      name: doc.username,
+      image: doc.image || null,
+    }));
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+};

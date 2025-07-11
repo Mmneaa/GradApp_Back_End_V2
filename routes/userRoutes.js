@@ -22,6 +22,7 @@ const {
   getGroupsList,
   changeUserRole,
   verifyEmail,
+  getDoctorsList,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/roleMiddleware");
@@ -76,15 +77,6 @@ router.get("/groups", protect, getGroupsList);
 router.post("/groups/add", protect, addGroup);
 router.post("/groups/remove", protect, removeGroup);
 
-router.get("/doctors", protect, async (req, res, next) => {
-  try {
-    const doctors = await require("../models/User")
-      .find({ accountType: "doctor" })
-      .select("username email");
-    res.json(doctors);
-  } catch (error) {
-    next(error);
-  }
-});
+router.get("/doctors", protect, getDoctorsList);
 
 module.exports = router;

@@ -331,7 +331,7 @@ exports.getCoursesPostsBySubCategory = async (req, res, next) => {
 };
 
 // Get all Research posts grouped by subCategory: Groups all research posts by their subCategory.
-exports.getResearchPostsBySubCategory = async (req, res, next) => {
+exports.getAllResearchPostsGroupedBySubCategory = async (req, res, next) => {
   try {
     const posts = await Post.find({ category: "Research" })
       .populate("user", "username")
@@ -357,7 +357,7 @@ exports.getResearchPostsBySubCategory = async (req, res, next) => {
 };
 
 // Get all Courses posts grouped by subCategory: Groups all course posts by their subCategory.
-exports.getCoursesPostsBySubCategory = async (req, res, next) => {
+exports.getAllCoursesPostsGroupedBySubCategory = async (req, res, next) => {
   try {
     const posts = await Post.find({ category: "Courses" })
       .populate("user", "username")
