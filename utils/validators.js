@@ -45,13 +45,13 @@ exports.validatePasswordChange = (req, res, next) => {
   validateRequest(req, next, schema);
 };
 
-exports.validatePostId = (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+exports.validatePostIdInBody = (req, res, next) => {
+  const { postId } = req.body;
+  if (!mongoose.Types.ObjectId.isValid(postId)) {
     return res.status(400).json({ message: "Invalid post ID" });
   }
   next();
 };
-
 exports.validateFriendId = (req, res, next) => {
   const schema = Joi.object({
     friendId: Joi.string().required(),
