@@ -203,6 +203,11 @@ exports.addToFavouriteList = async (req, res, next) => {
   try {
     const { postId } = req.body;
 
+    // Validate postId format
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+      return res.status(400).json({ message: "Invalid post ID format" });
+    }
+
     // Check if post exists
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: "Post not found" });
