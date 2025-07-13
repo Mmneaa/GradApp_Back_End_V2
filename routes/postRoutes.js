@@ -13,7 +13,10 @@ const {
 } = require("../controllers/postController");
 const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/roleMiddleware");
-const { validateCreatePost, validatePostId } = require("../utils/validators");
+const {
+  validateCreatePost,
+  validatePostIdInBody,
+} = require("../utils/validators");
 
 // Get all posts
 router.get("/", getPosts);
@@ -25,14 +28,14 @@ router.post("/", protect, validateCreatePost, createPost);
 router.get("/my-posts", protect, getMyPosts);
 
 // Get a single post by ID
-router.get("/:id", validatePostId, getPostById);
+router.get("/:id", validatePostIdInBody, getPostById);
 
 // Edit a post
 router.put(
   "/:id",
   protect,
   authorize("admin", "moderator", "user"),
-  validatePostId,
+  validatePostIdInBody,
   editPost
 );
 
@@ -41,7 +44,7 @@ router.delete(
   "/:id",
   protect,
   authorize("admin", "moderator", "user"),
-  validatePostId,
+  validatePostIdInBody,
   deletePost
 );
 

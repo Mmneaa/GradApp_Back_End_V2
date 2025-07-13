@@ -61,7 +61,7 @@ router.post(
 router.post(
   "/favourites/remove",
   protect,
-  validatePostId,
+  validatePostIdInBody,
   removeFromFavouriteList
 );
 
