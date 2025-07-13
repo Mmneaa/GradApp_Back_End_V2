@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 const Group = require("../models/Group");
 const jwt = require("jsonwebtoken");
 const generateToken = require("../utils/generateToken");
-
+const mongoose = require("mongoose");
 // Get user profile: Fetches the authenticated user's profile.
 exports.getUserProfile = async (req, res, next) => {
   try {
