@@ -27,7 +27,7 @@ const {
 const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/roleMiddleware");
 const {
-  validatePostId,
+  validatePostIdInBody,
   validateFriendId,
   validateProfileUpdate,
   validatePasswordChange,
