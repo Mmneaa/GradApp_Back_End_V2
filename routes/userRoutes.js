@@ -53,11 +53,7 @@ router.put("/ban/:id", protect, authorize("admin"), banUser);
 router.put("/unban/:id", protect, authorize("admin"), unbanUser);
 
 router.get("/favourites", protect, getFavouriteList);
-router.post(
-  "/api/users/favourites/add",
-  validatePostIdInBody,
-  addToFavouriteList
-);
+router.post("/favourites/add", validatePostIdInBody, addToFavouriteList);
 router.post(
   "/favourites/remove",
   protect,
